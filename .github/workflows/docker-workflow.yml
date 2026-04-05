@@ -1,0 +1,10 @@
+name: docker-workflow
+on:
+    push:
+jobs:
+    docker-login:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Login step
+              run: echo "Docker login step
+              
