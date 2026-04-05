@@ -107,7 +107,7 @@ jobs:
         
         - name: Test script
           run: |
-            export MONGO_USERNAME=${{ vars.MONGO_USERNAME }}
+            
             echo "MONGO_USERNAME - $MONGO_USERNAME"
             docker images
 
