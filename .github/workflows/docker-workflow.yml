@@ -29,3 +29,9 @@ jobs:
                 export IMAGE=${{ vars.DOCKER_USERNAME}}/solar-system:latest
                 chmod +x containerRunScript.sh
                 ./containerRunScript.sh
+            - name: Push image
+              uses: docker/build-push-action@v7
+              with:
+                context: .
+                tags:  ${{ vars.DOCKER_USERNAME}}/solar-system:latest
+                 
