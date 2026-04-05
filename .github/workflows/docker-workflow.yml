@@ -23,5 +23,8 @@ jobs:
             
             - name: Test script
               run: |
+                export MONGO_USERNAME=${{ vars.MONGO_USERNAME }}
+                export MONGO_URI=${{ vars.MONGO_URI }}
+                 export MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}
                 chmod +x containerRunScript.sh
                 ./containerRunScript.sh
