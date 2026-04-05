@@ -46,7 +46,7 @@ jobs:
           id: unit-testing-step
           run: npm test
           
-        - name: Archive Test Result
+        - name: Archive Test Result.
           # if: failure() || success() || always() && (steps.unit-testing-step.outcome == 'success')
           uses: actions/upload-artifact@v6
           with:
