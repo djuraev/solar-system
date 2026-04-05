@@ -6,11 +6,23 @@ on:
     branches:
       - main
       - 'feature/*'
+env:
+  MONGO_URI: 'mongodb+srv://supercluster.d83jj.mongodb.net/superData'
+  MONGO_USERNAME: superuser
+  MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
     
 jobs:
     unit-testing:
-        name: Unit Testing
-        runs-on: ubuntu-latest
+        name: Unit Testing job
+        # if: github.ref_name == 'git/ref/main'
+        strategy:
+          matrix:
+            node-version: [24]
+            os: [ubuntu-latest]
+            # exclude:
+            #   - node-version: 20
+            #     os: ubuntu-latest
+        runs-on: ${{ matrix.os }}
         steps:
         - name: Checkout Repository
           uses: actions/checkout@v4
@@ -18,16 +30,59 @@ jobs:
         - name: Setup NodeJS Version
           uses: actions/setup-node@v3
           with:
-            node-version: 20
+            node-version: ${{ matrix.node-version }}
+
+        - name: Cache npm packages/dependencies
+          uses: actions/cache@v5.0.4
+          with:
+            path: node_modules
+            key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+            
     
         - name: Install Dependencies
           run: npm install
     
         - name: Unit Testing
+          id: unit-testing-step
           run: npm test
           
-        - name: Archive Test Result
-          uses: actions/upload-artifact@v3
+        - name: Archive Test Result.
+          # if: failure() || success() || always() && (steps.unit-testing-step.outcome == 'success')
+          uses: actions/upload-artifact@v6
           with:
-            name: Mocha-Test-Result
+            name: Mocha-Test-Result-${{matrix.node-version}}-${{matrix.os}}
             path: test-results.xml
+    code-coverage:
+      name: Code Coverage
+      runs-on: ubuntu-latest
+      steps:
+          - name: Checkout repo
+            uses: actions/checkout@v4
+
+          - name: Install node
+            uses: actions/setup-node@v3
+            with:
+              node-version: 24
+
+          - name: Create cache for node Dependencies
+            uses: actions/cache@v5.0.4
+            with:
+              path: node_modules
+              key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+
+          - name: Install dependencies
+            run: npm install
+
+          - name: Code coverage step
+            run: |
+              npm run coverage
+              # exit 0
+            continue-on-error: true
+          
+          - name: Artifacting code coverate results
+            uses: actions/upload-artifact@v6
+            with:
+              name: code-coverage-result
+              path: coverage
+              retention-days: 5
+          
