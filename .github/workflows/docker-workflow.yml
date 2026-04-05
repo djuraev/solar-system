@@ -13,3 +13,15 @@ jobs:
               with:
                 username: ${{ vars.DOCKER_USERNAME }}
                 password: ${{ secrets.DOCKER_PASSWORD }}
+
+            - name: Docker Build for testing
+              uses: docker/build-push-action@v7
+              with:
+                context: .
+                push: false
+                tags: ${{ vars.DOCKER_USERNAME}}/solar-system:${{ github.sha }}
+            
+            - name: Test script
+              run: |
+                chmod +x containerRunScript.sh
+                ./containerRunScript.sh

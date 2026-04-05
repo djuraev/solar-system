@@ -106,7 +106,9 @@ jobs:
             tags: ${{ vars.DOCKER_USERNAME}}/solar-system:${{ github.sha }}
         
         - name: Test script
-          run: ./containerRunScript.sh
+          run: |
+             chmod +x containerRunScript.sh
+             ./containerRunScript.sh
 
         
 
