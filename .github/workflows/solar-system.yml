@@ -64,7 +64,7 @@ jobs:
             with:
               node-version: 24
 
-          - name: Create cache for node dependencies
+          - name: Create cache for node Dependencies
             uses: actions/cache@v5.0.4
             with:
               path: node_modules
