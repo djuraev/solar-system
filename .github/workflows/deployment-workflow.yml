@@ -35,7 +35,11 @@ jobs:
                   kubectl get nodes
             - name: Minikube status
               run: minikube status
-              
+
+            - name: Wait for cluster
+              run: |
+                   kubectl wait --for=condition=Ready nodes --all --timeout=120s
+
             - name: Run nginx pod
               run: |
                   kubectl run nginx-pod --image nginx
