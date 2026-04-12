@@ -42,6 +42,8 @@ jobs:
                   kubectl get nodes
                   kubectl get deploy
                   kubectl get pods
+                  docker ps
+                  
 
             # - name: Saving Ingress IP as github env variable
             #   run: |
