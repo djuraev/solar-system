@@ -40,6 +40,9 @@ jobs:
                   kubectl version 
                   echo "___________________________________________________________________"
                   kubectl get nodes
+                  kubectl get deploy
+                  kubectl get pods
+                  
             # - name: Minikube status
             #   run: minikube status
 
