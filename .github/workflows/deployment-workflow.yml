@@ -9,41 +9,41 @@ jobs:
             - name: Checkout Repo
               uses: actions/checkout@v4
 
-            # - name: Set up kubectl
-            #   id: install-kubectl
-            #   uses: azure/setup-kubectl@v4
-            #   with:
-            #     version: 'v1.26.0' # default is latest stable
-
-            # - name: Set kubeConfig
-            #   uses: azure/k8s-set-context@v4
-            #   with:
-            #     method: kubeconfig
-            #     kubeconfig: ${{ secrets.KUBECONFIG }}
-
-            - name: Setup Minikube
-              uses: manusa/actions-setup-minikube@v2.16.1
+            - name: Install kubectl CLI
+              id: install-kubectl
+              uses: Azure/setup-kubectl@v5.0.0
               with:
-                minikube version: 'v1.38.1'
-                kubernetes version: 'v1.35.2'
-                github token: ${{ secrets.GITHUB_TOKEN }}
+                version: 'v1.35.0'
+
+            - name: Set kubeConfig
+              uses: Azure/k8s-set-context@v5.0.0
+              with:
+                method: kubeconfig
+                # kubeconfig: ${{ secrets.KUBECONFIG }}
+
+            # - name: Setup Minikube
+            #   uses: manusa/actions-setup-minikube@v2.16.1
+            #   with:
+            #     minikube version: 'v1.38.1'
+            #     kubernetes version: 'v1.35.2'
+            #     github token: ${{ secrets.GITHUB_TOKEN }}
             
             - name: Check kubectl installition
               run: |
                   kubectl version 
                   echo "___________________________________________________________________"
                   kubectl get nodes
-            - name: Minikube status
-              run: minikube status
+            # - name: Minikube status
+            #   run: minikube status
 
-            - name: Wait for cluster
-              run: |
-                   kubectl wait --for=condition=Ready nodes --all --timeout=120s
+            # - name: Wait for cluster
+            #   run: |
+            #        kubectl wait --for=condition=Ready nodes --all --timeout=120s
 
-            - name: Run nginx pod
-              run: |
-                  kubectl run nginx-pod --image nginx
-                  kubectl get pods
+            # - name: Run nginx pod
+            #   run: |
+            #       kubectl run nginx-pod --image nginx
+            #       kubectl get pods
 
             
 
