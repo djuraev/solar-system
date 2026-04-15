@@ -123,7 +123,8 @@ jobs:
           run: |
             echo $URL
             DECODED_URL=$(echo "$URL" | base64 -d )
-            curl $DECODED_URL/live
+            echo $DECODED_URL
+            curl http://$DECODED_URL/live
 
             
 
