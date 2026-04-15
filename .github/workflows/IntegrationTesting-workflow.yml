@@ -1,11 +1,17 @@
 name: IntegrationTesting workflow
-on: push
+on: 
+  push:
+  workflow_dispatch:
 jobs:
     Adding_env_variable:
         runs-on: ubuntu-latest
         steps:
             - name: Add env variable
-              run: echo "PROJECT='AI project'" >> "$GITHUB_ENV"
+              run: |
+                echo "PROJECT='AI project'" >> "$GITHUB_ENV"
+                echo "NAME='Sri satya'" >> "$GITHUB_ENV"
             
             - name: Read env variable
-              run: echo ${{ env.PROJECT }}
+              run: |
+                echo ${{ env.PROJECT }}
+                echo ${{ env.NAME }}
