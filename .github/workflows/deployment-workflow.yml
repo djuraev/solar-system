@@ -84,7 +84,10 @@ jobs:
               run: kubectl apply -f kubernetes/development
 
             - name: Validate the deployments resources
-              run: kubectl get pods -n ${{ vars.NAMESPACE }}
+              run: kubectl get all -n ${{ vars.NAMESPACE }}
+
+            - name: Check App status
+              run: curl ${{ env.INGRESS_IP }}/live
 
             # - name: Minikube status
             #   run: minikube status
