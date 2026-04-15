@@ -5,6 +5,9 @@ on:
 jobs:
     deployment:
         runs-on: ubuntu-latest
+        environment:
+          name: Development
+          url: https://${{ steps.set-ingress-hostname.outputs.INGRESS_HOSTNAME }}
         outputs:
           INGRESS_HOSTNAME: ${{ steps.set-ingress-hostname.outputs.INGRESS_HOSTNAME }}
         steps:
