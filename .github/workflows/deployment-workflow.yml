@@ -35,7 +35,11 @@ jobs:
             #     kubernetes version: 'v1.35.2'
             #     github token: ${{ secrets.GITHUB_TOKEN }}
             
+            - name: Condition to run optional jobs
+              run: echo "OPTIONAL=false" >> "$GITHUB_ENV"
+
             - name: Check kubectl installition
+              if: ${{ env.OPTIONAL }}
               run: |
                   kubectl version 
                   echo "___________________________________________________________________"
