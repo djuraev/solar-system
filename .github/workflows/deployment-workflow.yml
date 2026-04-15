@@ -5,6 +5,8 @@ on:
 jobs:
     deployment:
         runs-on: ubuntu-latest
+        outputs:
+          INGRESS_HOSTNAME: ${{ steps.set-ingress-hostname.outputs.INGRESS_IP }}
         steps:
             - name: Checkout Repo
               uses: actions/checkout@v4
@@ -35,8 +37,8 @@ jobs:
             #     kubernetes version: 'v1.35.2'
             #     github token: ${{ secrets.GITHUB_TOKEN }}
             
-            - name: Condition to run optional jobs
-              run: echo "OPTIONAL=false" >> "$GITHUB_ENV"
+            # - name: Condition to run optional jobs
+            #   run: echo "OPTIONAL=false" >> "$GITHUB_ENV"
 
             - name: Check kubectl installition
               if: false 
@@ -50,8 +52,9 @@ jobs:
                   docker images
 
             - name: Saving Ingress IP as github env variable
+              id: set-ingress-hostname
               run: |
-                echo "INGRESS_IP=$(kubectl -n ingress-nginx get services ingress-nginx-controller -o jsonpath="{.status.loadBalancer.ingress[0].hostname}")" >> "$GITHUB_ENV"
+                echo "INGRESS_IP=$(kubectl -n ingress-nginx get services ingress-nginx-controller -o jsonpath="{.status.loadBalancer.ingress[0].hostname}")" >> "$GITHUB_OUTPUT"
             
             - name: Replace values in manifest files
               uses: cschleiden/replace-tokens@v1
@@ -67,6 +70,7 @@ jobs:
                 # INGRESS_IP: ${{ env.INGRESS_IP }}
 
             - name: Check manifest files after replacing placeholders
+              if: false
               run: cat kubernetes/development/*.yaml
 
             - name: Create namespace.
@@ -91,6 +95,7 @@ jobs:
               run: kubectl get all -n ${{ vars.NAMESPACE }}
 
             - name: Check App status
+              if: false
               run: curl ${{ env.INGRESS_IP }}/live
 
             # - name: Minikube status
@@ -110,7 +115,7 @@ jobs:
       steps:
         - name: Validating website status
           env:
-            URL: http://aebfb7137d8ef4d0fa7c2d3f3486da47-792396812.ap-south-1.elb.amazonaws.com
+            URL: ${{ needs.deployment.outputs.INGRESS_HOSTNAME }}
           run: |
             echo $URL
             curl $URL/live
