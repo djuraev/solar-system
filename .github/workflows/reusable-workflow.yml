@@ -17,6 +17,6 @@ jobs:
       steps:
         - name: First_step
           run: echo ${{ env.PROJECT }}
-          
+
         - name: Environment printing
-          run: echo ${{ toJson(github)}}
+          run: echo ${{ github.ref_name }}
