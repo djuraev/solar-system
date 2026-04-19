@@ -141,7 +141,7 @@ jobs:
             aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
             aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
             aws_bucket: ${{ secrets.AWS_BUCKET }}
-            source_dir: Test-reports
+            source_dir: reports-${{ github.sha }}
 
         
 
