@@ -113,8 +113,7 @@ jobs:
         - name: download test artifact
           uses: actions/download-artifact@v8
           with:
-            name: Mocha-Test-Result-ubuntu-latest-24
-        
+            name: Mocha-Test-Result-24-ubuntu-latest
         - name: download code coverage artifact
           uses: actions/download-artifact@v8
           with:
