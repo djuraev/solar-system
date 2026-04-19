@@ -114,12 +114,14 @@ jobs:
           uses: actions/download-artifact@v6
           with:
             name: Mocha-Test-Result-24-ubuntu-latest
+            path: ./Mocha-Test-Result-24-ubuntu-latest
             
 
         - name: download code coverage artifact
           uses: actions/download-artifact@v6
           with:
             name: code-coverage-result
+            path: ./code-coverage-result
 
         - name: display the file
           run: ls -l
