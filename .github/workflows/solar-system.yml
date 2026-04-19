@@ -115,11 +115,16 @@ jobs:
           with:
             name: Mocha-Test-Result-24-ubuntu-latest
 
+        - name: download test artifact-20
+          uses: actions/download-artifact@v8
+          with:
+            name: Mocha-Test-Result-20-ubuntu-latest
+
         - name: download code coverage artifact
           uses: actions/download-artifact@v8
           with:
             name: code-coverage-result
-            
+
         - name: display the file
           run: ls -l
 
