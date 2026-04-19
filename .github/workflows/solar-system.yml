@@ -59,7 +59,7 @@ jobs:
           # if: failure() || success() || always() && (steps.unit-testing-step.outcome == 'success')
           uses: actions/upload-artifact@v6
           with:
-            name: Mocha-Test-Result-${{matrix.node-version}}-${{matrix.os}}
+            name: Mocha-test-results/Mocha-Test-Result-${{matrix.node-version}}-${{matrix.os}}
             path: test-results.xml
     code-coverage:
       name: Code Coverage
