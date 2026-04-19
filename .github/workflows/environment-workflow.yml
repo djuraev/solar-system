@@ -16,4 +16,12 @@ jobs:
       AWS_REGION: ${{ secrets.AWS_REGION }}
     with:
       PROJECT: "Production project."
+  
+  testing_job:
+    needs: [Production_job]
+    runs-on: ubuntu-latest
+    steps:
+      - name: testing step
+        run: echo "url - ${{ needs.Production_job.outputs.URL }}"
+    
       
