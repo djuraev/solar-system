@@ -10,7 +10,7 @@ on:
           type: number
       secrets:
         AWS_REGION:
-          required: false
+          required: true
 jobs:
     intro_step:
         runs-on: ubuntu-latest
