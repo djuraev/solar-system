@@ -14,4 +14,6 @@ jobs:
         steps:
           - name: First_step
             run: echo "This is ${{ inputs.PROJECT }} of version - ${{ inputs.VERSION }}"
+          - name: Secrets accessing
+            run: echo ${{ secrets.AWS_REGION }}
     
